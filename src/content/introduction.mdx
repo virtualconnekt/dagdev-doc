@@ -1,0 +1,45 @@
+
+# What is DagDev
+
+> DagDev is a CLI-first development framework for BlockDAG-based blockchains. It provides a local DAG execution environment, parallel block simulation, and EVM compatibility.
+
+DagDev allows protocol researchers and infrastructure engineers to spin up deterministic DAG networks locally, visualize the ledger structure, and test consensus modifications in real-time.
+
+## Key Features
+
+*   **Local DAG execution environment**: Spin up a network with thousands of blocks in seconds.
+*   **Parallel block simulation**: Simulate mining on multiple tips (blue set) concurrently.
+*   **EVM compatibility**: Deploy standard Solidity contracts on a DAG-based ledger.
+
+## Why BlockDAG?
+
+Unlike traditional blockchains that arrange blocks in a single chain, a **BlockDAG** (Directed Acyclic Graph) allows blocks to reference multiple parents. This enables:
+
+1.  **High Throughput**: Parallel block creation without orphans.
+2.  **Fast Confirmations**: GHOSTDAG ordering provides quick probabilistic finality.
+3.  **Decentralization**: Lowers the barrier for mining by utilizing inclusive protocols.
+
+<div className="my-8">
+  <LiveCLI 
+    steps={[
+      { cmd: "dagdev init my-protocol", output: "Created new project in /my-protocol" },
+      { cmd: "cd my-protocol" },
+      { cmd: "dagdev start", output: "Starting local DAG node...\nListening on port 8080\nMining blocks... Hashing power: 400 KH/s" }
+    ]} 
+  />
+</div>
+
+## Architecture Overview
+
+DagDev consists of three main components:
+
+<div className="my-8 h-[400px] relative">
+  <DAGDiagram blockCount={25} />
+</div>
+
+| Component | Description |
+| :--- | :--- |
+| **CLI** | The primary interface for developers (`dagdev`). |
+| **DRE** | Dag Runtime Environment for managing local nodes. |
+| **Visualizer** | A web-based tool for inspecting the DAG graph. |
+

@@ -1,0 +1,27 @@
+# dagdev init
+
+Initializes a new DagDev workspace.
+
+## Usage
+
+```bash
+dagdev init <project-name> [options]
+```
+
+## Arguments
+
+*   `<project-name>`: The name of the directory to create.
+
+## Options
+
+*   `--template <template-name>`: Specify a starting template.
+    *   `basic` (default): Minimal setup.
+    *   `typescript`: Setup with TypeScript support.
+    *   `react`: Includes a React frontend.
+*   `--force`: Overwrite existing directory if it exists.
+
+## Example
+
+```bash
+dagdev init my-defi-app --template typescript
+```

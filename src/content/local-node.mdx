@@ -1,0 +1,43 @@
+# Running a Local Node
+
+Once your project is initialized, you can spin up a local DagDev node. This node simulates a full BlockDAG network on your machine.
+
+## Starting the Node
+
+Run the following command in your project root:
+
+```bash
+dagdev node
+```
+
+You should see output indicating that the node has started:
+
+```text
+Starting local GHOSTDAG node...
+✔ Network: local-dev | Port: 16110
+✔ Miner worker started (4 threads)
+INFO: Genesis block created 0x00...00
+INFO: Block added 0x3f...a2 (Blue Score: 1)
+```
+
+## Interacting with the Node
+
+### Via RPC
+The node exposes a JSON-RPC interface at `http://localhost:16110`. You can send standard Ethereum RPC calls as well as custom DagDev commands.
+
+```bash
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' http://localhost:16110
+```
+
+### Visualizing
+While the node is running, you can open the visualizer (usually at `http://localhost:3000` if running the dev server, or launched via `dagdev visualize`) to connect to your local node and watch the graph grow in real-time.
+
+## Stopping the Node
+
+To stop the node, simply press `Ctrl+C` in the terminal. The node state is ephemeral by default — restarting it will create a fresh DAG from a new genesis block.
+
+To persist state between runs (useful for long-term testing):
+
+```bash
+dagdev node --persist ./data
+```

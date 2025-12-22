@@ -1,0 +1,22 @@
+# GHOSTDAG Consensus
+
+**GHOSTDAG** (Greedy Heaviest Observed SubTree Directed Acyclic Graph) is the consensus protocol that powers DagDev. It is a generalization of the "Heaviest Chain" rule used in Bitcoin, adapted for a graph structure where blocks can have multiple parents.
+
+## The Goal
+The primary goal of GHOSTDAG is to order the blocks in the DAG into a single, universally agreed-upon list. This linear ordering allows us to execute transactions sequentially (like EVM) even though they were mined in parallel.
+
+## How It Works
+
+GHOSTDAG does not discard "orphan" blocks. Instead, for every block `B`, it creates a set of its parents and their ancestors. It then divides these past blocks into two sets: **Blue** and **Red**.
+
+1.  **Blue Set**: Blocks that are "well-connected" and likely created by honest miners. These blocks form the main chain of history.
+2.  **Red Set**: Blocks that are "outliers" or created too late to be included in the main history of the current tip. These are usually merges of conflicting branches or potential attacks.
+
+### The k-Parameter
+The protocol is defined by a parameter `k`. This represents the maximum "width" of the cluster of blocks that can be created in parallel without being considered delayed.
+
+*   If `k=0`, GHOSTDAG behaves exactly like Bitcoin (a linear chain).
+*   If `k>0` (e.g., `k=18` in DagDev defaults), the protocol tolerates up to 18 parallel blocks at any given height.
+
+## Finality
+Once a block is deeply embedded in the Blue set of the network's tips, its position in the global order becomes effectively immutable. DagDev provides APIs to query the `blueScore` of a block, which acts similarly to "confirmations" in a traditional chain.

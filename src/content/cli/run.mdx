@@ -1,0 +1,27 @@
+# dagdev run
+
+Executes a script against the local DRE node.
+
+## Usage
+
+```bash
+dagdev run <script-path> [options]
+```
+
+## Arguments
+
+*   `<script-path>`: Path to the JavaScript or TypeScript file to execute.
+
+## Options
+
+*   `--network <network-name>`: The network to connect to (default: `local`).
+*   `--watch`: Watch for file changes and re-run.
+
+## Description
+This command is similar to `hardhat run` or `node`. It injects the `dagdev` global object into your script environment, allowing easy access to the DRE provider, wallet management, and contract factories.
+
+## Example
+
+```bash
+dagdev run scripts/deploy_token.js
+```

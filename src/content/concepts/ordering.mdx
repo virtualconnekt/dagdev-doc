@@ -1,0 +1,19 @@
+# Ordering & Finality
+
+After GHOSTDAG has colored the blocks Blue and Red, the final step is to produce a **Linear Order**. This is critical for smart contracts, as the EVM requires transactions to be executed one after another.
+
+## Topological Sort
+DagDev performs a topological sort on the Blue set. The logic ensures that:
+1.  Parents always come before children.
+2.  Blocks with higher `blueScore` generally come later.
+3.  Ties are broken deterministically using block hashes.
+
+This means that even though blocks `A` and `B` were mined in parallel, the entire network will agree on whether `A` comes before `B` (or vice versa) once they are deeply buried in the DAG.
+
+## Finality
+In a BlockDAG, "finality" is probabilistic. As more blocks are added on top of a specific block `X`:
+1.  It becomes harder for an attacker to produce a heavier sub-DAG that excludes `X` or reorders it.
+2.  The `blueScore` of `X` increases.
+
+### Confirmation Time
+Because blocks are produced so rapidly (e.g., 1 per second or faster), "10 confirmations" happens in seconds rather than minutes. This allows for near-instant UX for DApps while maintaining high security.

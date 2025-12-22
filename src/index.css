@@ -1,0 +1,70 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: 'Inter', 'system-ui', 'sans-serif';
+  --font-mono: 'JetBrains Mono', 'monospace';
+
+  --color-background: #0a0a0b;
+
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-900: #1e3a8a;
+
+  --color-red-500: #ef4444;
+
+  --animate-type-line: type-line 1s steps(40) forwards;
+
+  @keyframes type-line {
+    0% {
+      width: 0;
+    }
+
+    100% {
+      width: 100%;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --color-dag-bg: #0a0a0b;
+    --color-dag-primary: #3b82f6;
+    --color-dag-secondary: #ef4444;
+  }
+
+  body {
+    @apply bg-[var(--color-dag-bg)] text-slate-200 antialiased selection:bg-blue-500/30 font-sans;
+  }
+}
+
+@layer utilities {
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-x-90 {
+    transform: rotateX(90deg);
+  }
+
+  .rotate-y-90 {
+    transform: rotateY(90deg);
+  }
+
+  .translate-z-8 {
+    transform: translateZ(32px);
+    /* 8 * 4px = 32px (approx half of w-16) */
+  }
+
+  .-translate-z-8 {
+    transform: translateZ(-32px);
+  }
+}
+
+.prose {
+  @apply max-w-none prose-invert prose-headings:font-normal prose-h1:text-4xl prose-h2:text-2xl prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-code:text-blue-200 prose-pre:bg-slate-900/50;
+}

@@ -1,0 +1,49 @@
+# Why BlockDAG?
+
+The limitations of traditional blockchains—specifically the **Nakamoto Consensus** used by Bitcoin—stem from their sequential nature. To prevent forks and double-spending, blocks must be created slowly enough that latency doesn't cause the network to de-sync.
+
+**DagDev** is built on the premise that parallelism is the only path to Layer 1 scalability without centralized compromises.
+
+## The Trilemma of Traditional Chains
+
+In sequential blockchains:
+1.  **Orphans are Waste**: If two miners solve a block at the same time, one is discarded (orphaned). This wastes energy and security.
+2.  **Low Throughput**: To minimize orphans, block intervals must be large (e.g., 10 minutes in Bitcoin).
+3.  **High Latency**: Confirmation requires waiting for multiple sequential blocks.
+
+## The BlockDAG Solution
+
+A **BlockDAG** (Directed Acyclic Graph) changes the fundamental rule: **blocks can have multiple parents**.
+
+### 1. Inclusive Mining (No Orphans)
+When two miners produce blocks simultaneously, both are added to the graph. They reference the same tips (parents). This structure forms a DAG rather than a chain.
+- **Security**: The "chain" is now a "mesh" of proof-of-work.
+- **Efficiency**: No work is wasted. All valid blocks contribute to network security.
+
+### 2. High Throughput via Parallelism
+Since the network doesn't need to wait for full propagation before the next block is mined, block times can be reduced drastically (e.g., 1 block/second or faster).
+
+### 3. Fast Confirmations with GHOSTDAG
+The core innovation enabling this is the **GHOSTDAG** consensus protocol (a variant of PHANTOM).
+- It orders the DAG into a linear sequence retroactively.
+- It distinguishes between **Blue Blocks** (well-connected, honest majority) and **Red Blocks** (attackers or poorly connected).
+- **Result**: You get the speed of a mesh with the strict ordering of a chain.
+
+<div className="my-8 p-6 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+    <h3 className="text-blue-400 font-bold mb-2">Technical Note: The k-parameter</h3>
+    <p className="text-sm text-slate-400">
+        DagDev networks are parameterized by <code>k</code>, which defines the maximum "width" of the DAG (how many parallel blocks are allowed before anticone checks kick in). A higher <code>k</code> allows for more parallel throughput but requires higher bandwidth.
+    </p>
+</div>
+
+## Comparisons
+
+| Feature | Bitcoin / Ethereum (Legacy) | DagDev (BlockDAG) |
+| :--- | :--- | :--- |
+| **Structure** | Linear Chain | Directed Acyclic Graph |
+| **Block Parents** | 1 | Many (Average > 1) |
+| **Orphans** | Discarded | Integrated (Red/Blue) |
+| **Bottleneck** | Network Latency | Bandwidth / CPU |
+| **Mining** | Winner-Takes-All | Cooperative / Parallel |
+
+DagDev provides the tooling to simulate these high-throughput environments on your local machine, allowing you to build applications that are native to this parallel architecture.

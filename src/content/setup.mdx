@@ -1,0 +1,52 @@
+# Project Setup
+
+Creating a new DagDev project is as simple as initializing a blank directory. The CLI will handle the scaffolding of the project structure and installing necessary dependencies.
+
+## Initializing a New Project
+
+To create a new project, navigate to the folder where you want your project to live and run:
+
+```bash
+dagdev init my-dag-project
+```
+
+This command will:
+1.  Create a new directory named `my-dag-project`.
+2.  Initialize a `package.json` file.
+3.  Install standard dependencies (`hardhat`, `ethers`, etc.).
+4.  Create a `dag.config.js` configuration file.
+5.  Set up a basic directory structure.
+
+## Project Structure
+
+A typical DagDev project looks like this:
+
+```text
+my-dag-project/
+├── contracts/          # Your Solidity smart contracts
+├── scripts/            # Deployment and interaction scripts
+├── test/               # Tests for your contracts
+├── dag.config.js       # Configuration for the local DAG node
+├── hardhat.config.js   # Standard Hardhat config
+└── package.json
+```
+
+## Configuration
+
+Your `dag.config.js` file controls the behavior of your local DAG node.
+
+```javascript
+module.exports = {
+  network: {
+    port: 16110,      // RPC port
+    p2p: 16210,       // P2P port
+    mining: true      // Enable internal CPU miner
+  },
+  ghostdag: {
+    k: 18,            // The k-parameter (DAG width)
+    genesis: "..."    // Custom genesis block (optional)
+  }
+};
+```
+
+You can tweak the `k` parameter to simulate different network conditions. A higher `k` allows for a "wider" DAG with more parallel blocks.

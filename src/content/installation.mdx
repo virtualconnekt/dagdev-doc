@@ -1,0 +1,58 @@
+# Installation
+
+Getting started with DagDev is straightforward. As a CLI-first tool, it installs globally on your machine to provide the `dagdev` command everywhere.
+
+## Prerequisites
+
+Before installing, ensure you have the following requirements met:
+
+*   **Node.js**: Version 18.0.0 or higher.
+*   **npm**: Version 9.0.0 or higher (usually comes with Node.js).
+*   **Git**: Required for scaffolding new projects.
+*   **Rust (Optional)**: Only needed if you plan to compile the DRE from source. The standard installation uses pre-compiled binaries.
+
+## Install via NPM
+
+To install the latest stable version globally:
+
+```bash
+npm install -g dagdev
+```
+
+This will download the CLI package and the appropriate DRE binary for your operating system (Linux, macOS, or Windows).
+
+## Verifying Installation
+
+Once installed, verify that the command is available in your PATH:
+
+```bash
+dagdev --version
+```
+
+You should see an output similar to:
+
+```text
+dagdev version 0.8.2
+dre version 1.4.0 (ghostdag-v2)
+```
+
+## Updating
+
+To update to the latest version:
+
+```bash
+npm update -g dagdev
+```
+
+## Troubleshooting
+
+### "Permission denied" on Linux/macOS
+If you encounter permission errors during installation:
+1.  **Do not use sudo** if possible. It can mess with file ownership.
+2.  Fix your npm permissions or use a node version manager like `nvm`.
+3.  If you must, use `sudo npm install -g dagdev`.
+
+### "Command not found"
+Ensure your global node modules folder is in your system PATH.
+- On **Linux/macOS**: Add `export PATH=$PATH:$(npm prefix -g)/bin` to your shell profile (`.bashrc` or `.zshrc`).
+- On **Windows**: Check your Environment Variables.

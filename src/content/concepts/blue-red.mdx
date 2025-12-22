@@ -1,0 +1,26 @@
+# Blue & Red Blocks
+
+In the DagDev visualizer, you will see blocks colored **Blue** or **Red**. This coloring is the visual representation of the GHOSTDAG consensus result.
+
+## The Blue Set (Accepted)
+**Blue blocks** are the "good citizens" of the DAG. They are the blocks that the protocol has decided to include in the primary ledger history.
+
+*   **Reward**: Miners of Blue blocks receive full block rewards.
+*   **Transactions**: Transactions in Blue blocks are executed (assuming they are valid and don't double-spend).
+*   **Parents**: A new block will try to pick parents such that it maximizes the size of the Blue set in its past.
+
+## The Red Set (Anticone / Conflict)
+**Red blocks** are valid proof-of-work blocks, but they were excluded from the primary history for one of two reasons:
+
+1.  **Timing**: They were mined too late relative to the rest of the network (latency issues).
+2.  **Conflict**: They might contain conflicting transactions or were mined by a minority chain (potential attack).
+
+Crucially, **Red blocks are NOT invalid blocks**. They are valid blocks that just "missed the cut" to be part of the ordered history's "main cluster".
+*   **Reward**: In some implementations, Red blocks may receive partial rewards, but in standard DagDev logic, they are typically penalized.
+*   **Transactions**: Transactions in Red blocks are usually ignored unless they are re-included in a future Blue block.
+
+## Visualization
+When you watch the DagDev simulator or visualizer:
+*   **Blue**: The stable, growing core of the network.
+*   **Red**: The "fuzz" on the edges or the branches that lost the race.
+This immediate visual feedback helps developers understand network health and propagation efficiency.
