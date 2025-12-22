@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Copy, Check, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -19,9 +19,9 @@ export function LiveCLI({ steps, autoPlay = true, loop = true, className }: Live
     const [displayedCmd, setDisplayedCmd] = useState('');
     const [showOutput, setShowOutput] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
-    const [started, setStarted] = useState(autoPlay);
+    const [started] = useState(autoPlay);
 
-    const timeoutRef = useRef<NodeJS.Timeout>();
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     useEffect(() => {
         if (!started) return;

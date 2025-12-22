@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import clsx from 'clsx';
 
@@ -57,7 +57,7 @@ export function DAGDiagram({ blockCount = 20, className }: DAGDiagramProps) {
             // Always pick at least one
             if (potentialParents.length > 0) {
                 const parents = d3.shuffle(potentialParents).slice(0, numParents);
-                parents.forEach(p => {
+                parents.forEach((p: Node) => {
                     links.push({ source: String(i), target: p.id });
                 });
             }
@@ -97,11 +97,11 @@ export function DAGDiagram({ blockCount = 20, className }: DAGDiagramProps) {
             .data(nodes)
             .join("circle")
             .attr("r", 6)
-            .attr("fill", (d) => d.group === 'blue' ? '#3b82f6' : '#ef4444')
+            .attr("fill", (d: any) => d.group === 'blue' ? '#3b82f6' : '#ef4444')
             .call(drag(simulation) as any);
 
         node.append("title")
-            .text(d => `Block #${d.id} (${d.group})`);
+            .text((d: any) => `Block #${d.id} (${d.group})`);
 
         simulation.on("tick", () => {
             link

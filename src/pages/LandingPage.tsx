@@ -1,4 +1,5 @@
-import React from 'react';
+// React imported for JSX
+
 import {
     HeroSection,
     InstallSection,

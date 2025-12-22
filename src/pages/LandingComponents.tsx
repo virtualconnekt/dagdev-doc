@@ -17,8 +17,8 @@ const ScrambleText = ({ text, trigger }: { text: string, trigger: boolean }) => 
 
         let iterations = 0;
         const interval = setInterval(() => {
-            setDisplay(prev =>
-                text.split("").map((letter, index) => {
+            setDisplay(_prev =>
+                text.split("").map((_letter, index) => {
                     if (index < iterations) {
                         return text[index];
                     }
