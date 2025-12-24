@@ -19,9 +19,9 @@ export function LiveCLI({ steps, autoPlay = true, loop = true, className }: Live
     const [displayedCmd, setDisplayedCmd] = useState('');
     const [showOutput, setShowOutput] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
-    const [started] = useState(autoPlay);
+    const started = autoPlay;
 
-    const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+    const timeoutRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         if (!started) return;

@@ -1,4 +1,3 @@
-// React imported for JSX
 
 import {
     HeroSection,
