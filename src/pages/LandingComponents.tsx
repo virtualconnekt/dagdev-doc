@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'; // React imported for hooks
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Terminal, Copy, Check, Play, Server, Layers, Cpu, Code2, Network } from 'lucide-react'; // Removed unused icons
+import { Terminal, Copy, Check, Play, Server, Layers, Cpu, Code2, Network } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import * as THREE from 'three';
 
@@ -17,8 +17,8 @@ const ScrambleText = ({ text, trigger }: { text: string, trigger: boolean }) => 
 
         let iterations = 0;
         const interval = setInterval(() => {
-            setDisplay(_prev =>
-                text.split("").map((_letter, index) => {
+            setDisplay(() =>
+                text.split("").map((_, index) => {
                     if (index < iterations) {
                         return text[index];
                     }

@@ -6,11 +6,18 @@ interface Node {
     id: string;
     group: 'blue' | 'red' | 'pending';
     height: number;
+    x?: number;
+    y?: number;
+    vx?: number;
+    vy?: number;
+    fx?: number | null;
+    fy?: number | null;
+    index?: number;
 }
 
 interface Link {
-    source: string;
-    target: string;
+    source: string | Node;
+    target: string | Node;
 }
 
 interface DAGDiagramProps {
@@ -70,15 +77,15 @@ export function DAGDiagram({ blockCount = 20, className }: DAGDiagramProps) {
         const height = dimensions.height;
 
         // Force Simulation
-        const simulation = d3.forceSimulation(nodes as any)
-            .force("link", d3.forceLink(links).id((d: any) => d.id).distance(50))
+        const simulation = d3.forceSimulation<Node>(nodes)
+            .force("link", d3.forceLink<Node, Link>(links).id((d) => d.id).distance(50))
             .force("charge", d3.forceManyBody().strength(-200))
             .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("y", d3.forceY((d: any) => height - (d.height * 20)).strength(0.1)) // Flow upwards or downwards? Let's flow Left to Right
-            .force("x", d3.forceX((d: any) => (d.height * 50)).strength(0.5));
+            .force("y", d3.forceY<Node>((d) => height - (d.height * 20)).strength(0.1)) // Flow upwards or downwards? Let's flow Left to Right
+            .force("x", d3.forceX<Node>((d) => (d.height * 50)).strength(0.5));
 
         // Re-adjust for Left-to-Right flow
-        simulation.force("x", d3.forceX((d: any) => 50 + (d.height * 40)).strength(1))
+        simulation.force("x", d3.forceX<Node>((d) => 50 + (d.height * 40)).strength(1))
             .force("y", d3.forceY(height / 2).strength(0.1));
 
 
@@ -93,15 +100,15 @@ export function DAGDiagram({ blockCount = 20, className }: DAGDiagramProps) {
         const node = svg.append("g")
             .attr("stroke", "#fff")
             .attr("stroke-width", 1.5)
-            .selectAll("circle")
+            .selectAll<SVGCircleElement, Node>("circle")
             .data(nodes)
             .join("circle")
             .attr("r", 6)
-            .attr("fill", (d: any) => d.group === 'blue' ? '#3b82f6' : '#ef4444')
-            .call(drag(simulation) as any);
+            .attr("fill", (d) => d.group === 'blue' ? '#3b82f6' : '#ef4444')
+            .call(drag(simulation));
 
         node.append("title")
-            .text((d: any) => `Block #${d.id} (${d.group})`);
+            .text((d) => `Block #${d.id} (${d.group})`);
 
         simulation.on("tick", () => {
             link
@@ -111,29 +118,29 @@ export function DAGDiagram({ blockCount = 20, className }: DAGDiagramProps) {
                 .attr("y2", (d: any) => d.target.y);
 
             node
-                .attr("cx", (d: any) => d.x)
-                .attr("cy", (d: any) => d.y);
+                .attr("cx", (d) => d.x!)
+                .attr("cy", (d) => d.y!);
         });
 
-        function drag(simulation: any) {
-            function dragstarted(event: any) {
+        function drag(simulation: d3.Simulation<Node, undefined>) {
+            function dragstarted(event: d3.D3DragEvent<SVGCircleElement, Node, Node>) {
                 if (!event.active) simulation.alphaTarget(0.3).restart();
                 event.subject.fx = event.subject.x;
                 event.subject.fy = event.subject.y;
             }
 
-            function dragged(event: any) {
+            function dragged(event: d3.D3DragEvent<SVGCircleElement, Node, Node>) {
                 event.subject.fx = event.x;
                 event.subject.fy = event.y;
             }
 
-            function dragended(event: any) {
+            function dragended(event: d3.D3DragEvent<SVGCircleElement, Node, Node>) {
                 if (!event.active) simulation.alphaTarget(0);
                 event.subject.fx = null;
                 event.subject.fy = null;
             }
 
-            return d3.drag()
+            return d3.drag<SVGCircleElement, Node>()
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended);
